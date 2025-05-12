@@ -137,12 +137,19 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
   }
 
 /*button and link*/
-a {
-    color: #ADD8E6; 
+.a a {
+    display: inline-block;
+    background-color: #3B3B98;
+    color: #ffffff;
+    padding: 10px 20px;
     text-decoration: none;
+    border-radius: 6px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
-
-a:hover {
+.a a:hover {
     color: #FF7F50; /* Coral color when hovering */
 }
   
@@ -191,7 +198,7 @@ Confused, you stumble out of your accommodation.
 
 [[Start my day-&gt;Start Day]]
 
-[[Skip to Symposium-&gt;Introduce Advisors]] </tw-passagedata><tw-passagedata pid="2" name="Coffee" tags="" position="350,275" size="100,100">&lt;span class=&quot;d&quot;&gt;Yikes!
+[[Skip to Symposium-&gt;Symposium]] </tw-passagedata><tw-passagedata pid="2" name="Coffee" tags="" position="350,275" size="100,100">&lt;span class=&quot;d&quot;&gt;Yikes!
 
 Let&#39;s get you some coffee. Place your mobile order here: 
 
@@ -247,13 +254,13 @@ You confidently (or not so confidently) ordered: &#39;&#39;&#39;$choice&#39;&#39
 
 </tw-passagedata><tw-passagedata pid="4" name="OrderResult" tags="" position="475,275" size="100,100">Welcome to the coffee kiosk.
 
-&lt;span class=&quot;d&quot;&gt; Uh oh! Your wearable detected that your heart rate is a bit high. Nervous about the symposium? No caffeine for you! Perhaps you&#39;d like a glass of water? &lt;\span&gt;
+&lt;span class=&quot;d&quot;&gt; Uh oh! Your wearable detected that your heart rate is a bit high. Nervous about the symposium? No caffeine for you! Perhaps you&#39;d like a glass of water? &lt;/span&gt;
 
 &lt;&lt;button &quot;Grab water&quot;&gt;&gt;
 	Water acquired!
 &lt;&lt;/button&gt;&gt;
 
-&lt;span class=&quot;d&quot;&gt; Let&#39;s get you on yor way. Here&#39;s a cab to get you where you need to go. It&#39;s system already has the address. See you there! &lt;\span&gt; 
+&lt;span class=&quot;d&quot;&gt; Let&#39;s get you on yor way. Here&#39;s a cab to get you where you need to go. It&#39;s system already has the address. See you there! &lt;/span&gt; 
 
 [[Get in cab-&gt;Cab]]</tw-passagedata><tw-passagedata pid="5" name="Cab" tags="" position="600,275" size="100,100">&lt;span style=&quot;font-family: &#39;Roboto Mono&#39;, monospace; font-size: 24px; color: #8ABEEA;&quot;&gt;
     Welcome to your self-driving cab! I am your system. Your wearable set preferences to 
@@ -266,29 +273,55 @@ You confidently (or not so confidently) ordered: &#39;&#39;&#39;$choice&#39;&#39
     
 &lt;/span&gt;
 
-[[Start ride -&gt;Arrival]]</tw-passagedata><tw-passagedata pid="6" name="Arrival" tags="" position="800,350" size="100,100">&lt;span class=&quot;d&quot;&gt; Welcome to the symposium! Glad you enjoyed your ride. Madam Acting President is awaiting your arrival inside. 
+[[Start ride -&gt;Arrival]]</tw-passagedata><tw-passagedata pid="6" name="Arrival" tags="" position="775,275" size="100,100">&lt;span class=&quot;d&quot;&gt;Welcome to the symposium! Glad you enjoyed your ride. Madam Acting President is awaiting your arrival inside.&lt;/span&gt;
 
-&lt;&lt;link &quot;Head inside&quot;&gt;&gt;
-    &lt;&lt;replace &quot;#reveal&quot;&gt;&gt;
-    You arrive in the conference room.
-        &lt;span id=&quot;reveal&quot; style=&quot;font-family: &#39;Roboto Mono&#39;, monospace; font-size: 20px; color: #EAD18A;&quot;&gt;
-           Hello! Welcome to the latest symposium on AI development and regulation. We are here today to address some of the leading questions in AI, partuclarly following last month&#39;s events that led to my holding this acting role. Please take your seats.
-        &lt;/span&gt;
-    &lt;&lt;/replace&gt;&gt;
-&lt;&lt;/link&gt;&gt;
 
-[[Take seat-&gt;InitAdvisors]]</tw-passagedata><tw-passagedata pid="7" name="Symposium" tags="" position="275,600" size="100,100">&lt;&lt;set $availableAdvisors to $advisorPassages.filter(p =&gt; !$usedAdvisors.includes(p))&gt;&gt;
+&lt;span class=&quot;a&quot; style=&quot;display: inline-block; margin-top: 10px;&quot;&gt;
+	&lt;&lt;link &quot;Head inside&quot;&gt;&gt;
+		&lt;&lt;replace &quot;#headInside&quot;&gt;&gt;
+			&lt;span id=&quot;headInside&quot; style=&quot;font-family: &#39;Roboto Mono&#39;, monospace; font-size: 20px; color: #EAD18A;&quot;&gt;
+				You arrive in the conference room.&lt;br&gt;&lt;/span&gt;
+				
+                
+                &lt;span id=&quot;reveal&quot; style=&quot;font-family: &#39;Roboto Mono&#39;, monospace; font-size: 20px; color: #ff5733;&quot;&gt; Hello! Welcome to the latest symposium on AI development and regulation. We are here today to address some of the leading questions in AI, particularly following last month&#39;s events that led to my holding this acting role. Please take your seats.
+			&lt;/span&gt;
+		&lt;&lt;/replace&gt;&gt;
+	&lt;&lt;/link&gt;&gt;
+&lt;/span&gt;
 
-&lt;&lt;if $availableAdvisors.length == 0&gt;&gt;
-All advisors have presented.
-[[Restart|Start][$usedAdvisors = []]]
-&lt;&lt;else&gt;&gt;
-    &lt;&lt;set _index to random(0, $availableAdvisors.length - 1)&gt;&gt;
-    &lt;&lt;set _nextAdvisor to $availableAdvisors[_index]&gt;&gt;
-    &lt;&lt;set $usedAdvisors to $usedAdvisors.concat(_nextAdvisor)&gt;&gt;
-    &lt;&lt;goto _nextAdvisor&gt;&gt;
-&lt;&lt;/if&gt;&gt;
-</tw-passagedata><tw-passagedata pid="8" name="CodedGaze" tags="" position="1475,500" size="100,100">&lt;span style=&quot;color:#E6A97A; font-weight: bold; font-size: 2em; display: block; text-align: center;&quot;&gt;Coded Gaze &lt;/span&gt;
+
+&lt;span id=&quot;headInside&quot;&gt;&lt;/span&gt;
+
+[[Take seat-&gt;Symposium]]
+</tw-passagedata><tw-passagedata pid="7" name="Symposium" tags="" position="275,600" size="100,100">&lt;&lt;set $advisorPassages to [&quot;Mejias&quot;, &quot;Boulamwini&quot;, &quot;BoulGebru&quot;, &quot;Chun&quot;, &quot;Noble&quot;]&gt;&gt;
+&lt;&lt;set $usedAdvisors to []&gt;&gt;
+
+&lt;&lt;set $availableAdvisors to $advisorPassages.filter(p =&gt; !$usedAdvisors.includes(p))&gt;&gt;
+
+&lt;span id=&quot;advisorReveal&quot; style=&quot;font-family: &#39;Roboto Mono&#39;, monospace; font-size: 20px; color: #ff5733;&quot;&gt;
+    Let&#39;s review the information submitted in discovery, shall we?
+&lt;/span&gt;
+
+&lt;!-- Hear from advisor button --&gt;
+&lt;span class=&quot;a&quot; style=&quot;display: inline-block; margin-top: 10px;&quot;&gt;
+    &lt;&lt;link &quot;Hear from an advisor&quot;&gt;&gt;
+        &lt;&lt;replace &quot;#advisorResponse&quot;&gt;&gt;
+            &lt;&lt;if $availableAdvisors.length == 0&gt;&gt;
+                All advisors have presented.&lt;br&gt;
+                [[Restart|Start]]
+                &lt;&lt;set $usedAdvisors = []&gt;&gt;
+            &lt;&lt;else&gt;&gt;
+                &lt;&lt;set _index to random(0, $availableAdvisors.length - 1)&gt;&gt;
+                &lt;&lt;set _nextAdvisor to $availableAdvisors[_index]&gt;&gt;
+                &lt;&lt;set $usedAdvisors to $usedAdvisors.concat(_nextAdvisor)&gt;&gt;
+                &lt;&lt;goto _nextAdvisor&gt;&gt;
+            &lt;&lt;/if&gt;&gt;
+        &lt;&lt;/replace&gt;&gt;
+    &lt;&lt;/link&gt;&gt;
+&lt;/span&gt;
+
+&lt;!-- Placeholder for advisor replacement --&gt;
+&lt;span id=&quot;advisorResponse&quot;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="8" name="CodedGaze" tags="" position="1675,275" size="100,100">&lt;span style=&quot;color:#E6A97A; font-weight: bold; font-size: 2em; display: block; text-align: center;&quot;&gt;Coded Gaze &lt;/span&gt;
 
 &lt;span class=&quot;t&quot;&gt;The coded gaze&lt;/span&gt;
 
@@ -297,7 +330,7 @@ All advisors have presented.
 &lt;span class=&quot;t&quot;&gt;This has profound impacts on numerous groups of already-marginalized communities. Dr Boulamwini explored some of these impacts, specifically focusing her research within the field of computer vision.
 
 
-[[Back-&gt;Boulamwini]] </tw-passagedata><tw-passagedata pid="9" name="DataTerritories" tags="" position="1000,400" size="100,100">
+[[Back-&gt;Boulamwini]] </tw-passagedata><tw-passagedata pid="9" name="DataTerritories" tags="" position="1200,175" size="100,100">
 &lt;span style=&quot;color:#E6A97A; font-weight: bold; font-size: 2em; display: block; text-align: center;&quot;&gt;Data Territories &lt;/span&gt;
 
 &lt;span class=&quot;q&quot;&gt; Historical colonialism was nothing without the control of new territory. It was this territorial control that made possible the extraction of new resources on a global scale and the creation of vast new global markets for the benefit of the colonisers. [p.59] &lt;/span&gt;
@@ -343,7 +376,7 @@ Alongside the argument that code represents the invasion:&lt;/span&gt;
 
 &lt;span class=&quot;t&quot;&gt;In other words, human activity can be reduced by platforms to data, which can then be implemented to inform subsequent actions, cyclically exploiting life for profit. &lt;/span&gt;
 
-[[Back-&gt;Mejias]] </tw-passagedata><tw-passagedata pid="10" name="GenderShades" tags="" position="1375,375" size="100,100">&lt;span style=&quot;color:#E6A97A; font-weight: bold; font-size: 2em; display: block; text-align: center;&quot;&gt;Gender Shades &lt;/span&gt;
+[[Back-&gt;Mejias]] </tw-passagedata><tw-passagedata pid="10" name="GenderShades" tags="" position="1575,150" size="100,100">&lt;span style=&quot;color:#E6A97A; font-weight: bold; font-size: 2em; display: block; text-align: center;&quot;&gt;Gender Shades &lt;/span&gt;
 
 &lt;span class=&quot;t&quot;&gt; Boulamwini and Gebru explain that facial recognition is an AI-based process that relies on machine-learning over a dataset of labeled faces. They analyzed two benchmark training datasets, IJB- A (US government-endorsed benchmark released by National Institute of Standards and Technology) and Adience(2014 gender classification benchmark chosen for its ”recency and unconstrained nature” [p. 5]). However, they discovered, &lt;/span&gt;
 
@@ -376,14 +409,288 @@ Gender classification performance rate (1 - TPR), true positive rate (TPR), and 
 
 Further, this research provides insight into the intersectional disparities of AI. When considered together, the analysis of race and gender commercial AI classification accuracy yields rates of up to 99% for light-skinned males and as low as 65% for dark-skinned females.
 
-[[Back-&gt;BoulGebru]] </tw-passagedata><tw-passagedata pid="11" name="Homophily and Triadic Closure" tags="" position="1025,800" size="100,100"> write something here
-[[Back-&gt;Chun]] </tw-passagedata><tw-passagedata pid="12" name="Confirmation Bias and Networks" tags="" position="1025,925" size="100,100"> write something here
-[[Back-&gt;Chun]] </tw-passagedata><tw-passagedata pid="13" name="Google Search Results" tags="" position="1475,1225" size="100,100"> write something here
-[[Back-&gt;Noble]] </tw-passagedata><tw-passagedata pid="14" name="Digital Media Sciences" tags="" position="1475,1100" size="100,100"> write something here
-[[Back-&gt;Noble]] </tw-passagedata><tw-passagedata pid="15" name="Classification" tags="" position="1225,875" size="100,100"> write something here
-[[Back-&gt;Noble]] </tw-passagedata><tw-passagedata pid="16" name="Narrative Control" tags="" position="1475,975" size="100,100"> write something here
-[[Back-&gt;Noble]] </tw-passagedata><tw-passagedata pid="17" name="Prediction Methods" tags="" position="1025,1050" size="100,100"> write something here
-[[Back-&gt;Chun]] </tw-passagedata><tw-passagedata pid="18" name="Legal" tags="" position="275,1025" size="100,100"> &lt;span id=&quot;reveal&quot; style=&quot;font-family: &#39;Roboto Mono&#39;, monospace; font-size: 20px; color: #ff5733;&quot;&gt;
+[[Back-&gt;BoulGebru]] </tw-passagedata><tw-passagedata pid="11" name="Homophily and Triadic Closure" tags="" position="1225,575" size="100,100">Wendy Hui Kyong Chun draws attention to homophily as a
+scientifically justified concept related to racial and either discriminatory classification or groupings of people.
+In its distilled form, homophily refers to ”the tendency of like individuals to associate and bond with one
+another”[16, p.72]. But this term is rooted in segregation, not bond. Chun clarifies that homophily:
+introduces normativity within a supposedly nonnormative system by presuming that consensus
+stems from similarity; and it makes segregation the default. In valorizing “voluntary” actions, it
+erases historical contingencies, institutional discrimination, and economic realities. At its worst,
+it serves to justify the inequality it maps, by relabeling hate as “love.” [16, p.96]
+In other words, homophily functions in tandem with social classification. But, where direct colonial othering
+may be faulted for discrimination, homophily frames segregation as a consequence of preference, rather than
+an institutional implementation. It also recasts discrimination as ’preference.’ Within this interpretation,
+data can be analyzed or manipulated under less scrutiny. Chun acknowledges this influence over data use
+when she notes, ”Through homophily, network science and data analytics as currently configured inadver-
+tently perpetuate the discrimination they find” [16, p.8]. Essentially, data analysis based on homophily often
+reinforces the very concept it claims to explain. The process of ’softening’ and perpetuating discrimination
+has a legitimizing effect and results in these structures being further integrated into society. Chun highlights,
+”Homophily not only erases conflict; it also naturalizes discrimination” [16, p.103]. This social internalization
+of classification is foundational to the colonial context.
+A related concept, triadic closure, arises when considering the groups formed by these hemophilic rela-
+tions. As Chun explains:
+Triadic closure also presumes homophilous harmony and consensus. Triadic closure presumes
+that “if A spends time with both B and C, then there is an increased chance that they will end
+up knowing each other and potentially becoming friends” [16, pp.102-103]
+In other words, triadic closure suggests homophily as a reflective and transitive relation within the like classes
+of individuals. This theory manifests in AI-driven online spaces, particularly within social networks. For
+example, ”By revealing the friends of friends— and by insisting that friendships be reciprocal—Facebook
+makes triadic closure part of its algorithm: it is not simply predictive; it is also prescriptive” [16, p. 103].
+Facebook is not unique in its assumption of common demographics and interests as unifying characteristics.
+In fact, this AI-driven practice of suggestion based on common themes or traits is in effect the very basis of
+AI. However, this connection is based on unity ideological bubbles that cannot access counterpart bubbles.
+
+[[Back-&gt;Chun]] </tw-passagedata><tw-passagedata pid="12" name="ConfBiasNetworks" tags="" position="1225,700" size="100,100">The creation of ideological closed-loop communities creates a
+culture of social echo and radical agreement, or Confirmation Bias. Firstly, this prevents collaboration and
+understanding between differently classified groups, which further polarizes society. Secondly, this social
+structure can be exploited and monetized by corporations. As Chun explains:
+Focusing on the history and theory of homophily, it reveals that echo chambers are not unfor-
+tunate errors, but deliberate goals. Homophily is used to create agitated clusters of individuals
+whose angry similarity and overwhelming attraction to their common object of hatred both repel
+them from one another and glue them together.[16, p.82]
+Once cemented into their respective digital bubbles, advertising algorithms can target entire demographics
+or common traits with just access to homophilic trends. Additionally, ’rage-bait’ can increase traffic and
+engagement by targeting this agitation:
+Controversy provides the basis for predictability and works to “refine” more generically de-
+termined factors. Within affective charged zones, users presumably fall prey to confirmation
+bias—and thus act in historically consistent ways—because these are zones of belief or authentic-
+ity. In other words, these are moments and areas in which users feel their views are controversial,
+and thus no matter how dominant those views may be (or it could be a 50– 50 split) users feel
+“subversive” or “resistant” to hold them.[16, pp.160-161]
+Algorithmic analysis of unifying traits allows AI to drive this rage-bait induced interaction, which companies
+profit from.
+These abilities to algorithmically generalize an appeal to entire groups of people highlight the use of
+network science in the digital world. Networks refer to these distilled groups of like people. Chun explains, ”In
+networks, similarity breeds connection” [16, p. 70]. Moreover, the network can be approached as one consumer
+target with the expectation that appeals to one node of the network will, by nature of homophily’s transitivity,
+appeal to all connected nodes. To algorithms, ”The relationship between individuals and populations still
+matters, but the relevant group is now the ’network neighborhood’— or the homophilic cluster, groupings
+that are based on kinship and specialized interests rather than on notions of equality” [16, p.73]. This
+directly enables the commodification of users:
+network science captures— analyzes, articulates, imposes, instrumentalizes, and elaborates—
+connection. Coupling graph theory with game theory, it models human interactions in terms of
+costs, benefits, and efficiency. It clarifies global phenomena, from capitalism to “contagion,” by
+reducing the world to individual “nodes” and “edges.” [16, pp.86-87]
+However, this profit-driven reduction leads to dehumanization and a distillation of humanity in the digital
+space. Specifically:
+Fundamentally interdisciplinary, network science brings together physics, biology, economics, so-
+cial psychology, sociology, and anthropology. But, in merging the quantitative social sciences with
+the physical and computer sciences, it bypasses the qualitative social sciences and humanities,
+fields also steeped in theories of representation and networks. [16, p.90]
+While the network structure allows corporations to predicatively target users, it is easy to see how the
+oversight of users’ individual humanity and sole algorithmic dictation could present social problems.
+[[Back-&gt;Chun]] </tw-passagedata><tw-passagedata pid="13" name="Google Search Results" tags="" position="1675,1000" size="100,100">Dr. Umoja Noble began her study of algorithmic oppression when she
+discovered a disproportionate sexualization of black and brown women in Google search results as compared
+to their white counterparts, even when no suggestive terminology was used in the query [57, p.3]. She found
+via personal experience, and later supported with similar anecdotal evidence, that the search results of
+women that included marginalized racial terms, including black, brown, and Asian yielded explicit results
+with graphic depictions of pornographic content. This was not the case for the same search with white-subject
+queries. She explained the harms this misrepresentation causes, and their roots in the faulty assumption
+that Google search results are based on popularity:
+...the social context or meaning of derogatory or problematic Black women’s representations in
+Google’s ranking is normalized by virtue of their placement, making it easier for some people to
+believe that what exists on the page is strictly the result of the fact that more people are looking
+for Black women in pornography than anything else. This is because the public believes that
+what rises to the top in search is either the most popular or the most credible, or both. [57, p.
+32]
+In other words, society accepts the sexualization of racial othered groups based on the prevalence and
+immediacy of such search results. Umoja Noble suggests that the average Google user has the impression
+that Google search results are impartial. Through her research, however, she explains that this perception
+of neutrality is misguided.
+Google as a Monopolizing Media Source A principal mistake in this process is that of assuming
+search results, and particularly Google search results, are objective. As Umoja Noble explains, Google is
+a corporation – and a powerful one at that. As a result, their performance is driven by profit rather than
+authenticity. This process is based in algorithmic decisions. In relation to racially sexualized search results,
+she illustrates:
+...commercial search engines such as Google not only mediate but are mediated by a series of
+profit- driven imperatives that are supported by information and economic policies that under-
+write the commodification of women’s identities.... commercialization is the source of power that
+drives the consumption of Black women’s and girls’ representative identity on the web. [57, p.33]
+43
+This selection demonstrates how commercialization and power inform the depictions of Black women’s bodies.
+More broadly:
+Google functions in the interests of its most influential paid advertisers or through an intersection
+of popular and commercial interests. Yet Google’s users think of it as a public resource, generally
+free from commercial interest. Further complicating the ability to contextualize Google’s results
+is the power of its social hegemony. Google benefits directly and materially from what can be
+called the “laborainment” of users, when users consent to freely give away their labor and personal
+data for the use of Google and its products, resulting in incredible profit for the company.[57, p.
+36]
+This drive for profit naturally causes Google to favor profitable content. Through human direction and
+algorithmic enforcement, search results historically shown to increase profit are elevated in the online sphere.
+This amasses with what Umoja Noble terms the social hegemony, or Google’s overwhelming dominance
+within society. Recent analysis suggests Google holds over 90% of the worldwide market share[13]. This
+indicates that, within the population that uses the internet, Google holds an overwhelming majority of the
+user base.
+Given its command over the market, it is not difficult to believe that, as Umoja Noble describes, ”Google
+has become a ubiquitous entity that is synonymous for many everyday users with ’the Internet’ itself” [57,
+p.34]. This association has dire consequences:
+The public generally trusts information found in search engines. Yet much of the content surfaced
+in a web search in a commercial search engine is linked to paid advertising, which in part helps
+drive it to the top of the page rank, and searchers are not typically clear about the distinctions
+between “real” information and advertising. [57, p.38]
+In other words, the public tends to believe that the internet and search engines are reliable, or at least
+provide reliable sources of information. This is a misconception, as corporate interest favors advertisements
+and, in turn, promotes advertised content in search results without meaningfully clarifying which results are
+sponsored. Google’s demonstrated market control assumes the majority of this incidence.
+
+
+[[Back-&gt;Noble]] </tw-passagedata><tw-passagedata pid="14" name="Digital Media Sciences" tags="" position="1675,875" size="100,100">Dr. Umoja Noble’s background in Information and Library Science informs
+her analysis of the internet, and specifically Google, as a leading source of information in today’s society.
+She equates the internet to what could previously only be achieved from libraries:
+Traditional library and information science (LIS) organization systems such as subject cataloging
+and classification are an important part of understanding the landscape of how information science
+has inherited and continues biased practices in current system designs, especially on the web. [57,
+p.137]
+Traditional information outlets, however, have been stewarded by librarians or information scientists. Umoja
+Noble explains, ”the context and point of view of library and information science professionals who are re-
+sponsible for framing people and communities as ’problems’ and ’questions’ is important [57, p.142]. Notably,
+these professionals have had a hand in the accessibility and dissemination of information. As Umoja Noble
+notes:
+Library science scholars know that bibliographic and naming controls are central to making
+knowledge discoverable. Part of the issue is trying to understand who the audience is for knowl-
+44
+edge and naming and organizing information in ways that can be discovered by the public. [57,
+p.144]
+This professional knowledge and facilitation allow for information to be indexed and referenced by the general
+public, who likely do not have an extensive background in media sciences, when necessary.
+Search engines, like other databases of information, are equally bounded, limited to providing
+only information based on what is indexed within the network. Who has access to provide
+information in the network certainly impacts whether information can be found and surfaced to
+anyone looking for it. [57, p.141]
+But, unlike libraries, search engines do not have stewards or professionals indexing their results or expertly
+referencing their contents. Rather, algorithmic strategies are employed to provide results. But, considering
+the commercialization of search engines, one should question the relevance of such results to both the search
+query and alternative motives of promotion, like financial benefit. Furthermore, Umoja Noble argues that
+algorithms should not be trusted to make the same qualitative analysis that a human can about biases and
+the value of sources. She concludes:
+There is a pivotal relationship between information and users that is dependent on human under-
+standing... information provided to a user is deeply contextualized and stands within a frame of
+reference. For this reason, it is important to study the social context of those who are organizing
+information and the potential impacts of the judgments inherent in informational organization
+processes. Information must be treated in a context [57, p.149]
+The result of treating search engines like the classic library is the loss of this crucial context that comes with
+the human stewardship of information. What results is a technical categorization and fixation of identities
+and reinforcement of a dominant narrative.
+
+
+[[Back-&gt;Noble]] </tw-passagedata><tw-passagedata pid="15" name="Narrative Control" tags="" position="1675,750" size="100,100">Sovereignty, then, must play a role in the dissemination of information. Indeed,
+the colonially sovereign – as far as the economically privileged and non-marginalized – are represented
+through search engine results in far more depth and prevalence than their un-sovereign counterparts. This
+is in large part because, ”Those who have the power to design systems—classification or technical—hold
+the ability to prioritize hierarchical schemes that privilege certain types of information over others” [57, pp.
+138-139]. It can be argued that this cyclically reinforces their sovereignty insofar as Mbembe’s notion of
+power over the cultural narrative. In this regard, Dr. Umoja Noble explains:
+What we find in search engines about people and culture is important. They oversimplify com-
+plex phenomena. They obscure any struggle over understanding, and they can mask history.
+Search results can reframe our thinking and deny us the ability to engage deeply with essen-
+tial information and knowledge we need, knowledge that has traditionally been learned through
+teachers, books, history, and experience. [57, p.116]
+In other words, digitization of information seeking removes a layer of protection – the ’traditional’ methods of
+learning – against a homogenizing narrative of culture and history. Umoja Noble warns that these protections
+are crucial and, without them, Search will fundamentally alter and normalize this mono-perspective:
+Search does not merely present pages but structures knowledge, and the results retrieved in a
+commercial search engine create their own particular material reality. Ranking is itself informa-
+tion that also reflects the political, social, and cultural values of the society that search engine
+companies operate within, a notion that is often obscured in traditional information science
+studies. [57, p.148]
+This idea of ranking is deeply rooted in the commercialization of search engines. Umoja Noble suggests
+There can be no doubt that what commercial search engines provide at the very top of the
+results ranking (on the first page) can have deleterious effects... what shows up on the first
+page of search is typically highly optimized advertising- related content, because Google is an
+advertising company and its clients are paying Google for placement... [57, pp. 115-116]
+Who, then, will benefit from this advertisement-based ranking and placement? Naturally, the proposed
+cyclic nature of sovereignty in regard to search engines suggests that it will be the already-sovereign. Umoja
+Noble agrees:
+The most mainstream (e.g., White, heterosexual, Christian, middle-class) controlling regimes in
+society will privilege themselves and diminish or subdue all others in the organization of what
+constitutes legitimate knowledge. When we inherit privilege, it is based on a massive knowledge
+regime that foregrounds the structural inequalities of the past, buttressed by vast stores of texts,
+images, and sounds saved in archives, museums, and libraries. [57, p.140]
+46
+Returning to Dr. Umoja Noble’s original grounds for explanation, this sovereign power explains the racial-
+ized, hypersexualized search results she observed. Umoja Noble suggests, ”a racist worldview is embedded
+in cataloging practices that serve to bolster the image and domination of Western values and people” [57,
+p.144]. This supports the notion that, with the digital and commercial cataloguing – ie, ranking – of infor-
+mation, Western ideals will direct mechanisms of knowledge and information and, in the process, eliminate
+the counter-narratives that challenge leading, essentially most profitable, values. In response, she urges:
+crucial is an exploration of how people living as minority groups under the influence of a majority
+culture, such as people of color and sexual minorities in the United States, are often subject to
+the whims of the majority and other commercial influences such as advertising when trying to
+affect the kinds of results that search engines offer about them and their identities. [57, p.16]
+More precisely, it is necessary to address the un–sovereign populations that are deprived of their own accounts
+due to the streamline of cultural narrative within search engines. It is only in doing so that the essence of
+classic information science, as stewarded, multidimensional, and diverse information, will survive. This paper
+argues that the availability of such knowledge is the utmost means of resistance to the colonial binaries and
+sovereign domination that comes with control of cultural narrative.
+
+
+[[Back-&gt;Noble]] </tw-passagedata><tw-passagedata pid="16" name="Prediction Methods" tags="" position="1225,825" size="100,100">Chun illuminates multiple alarming practices on which algorithmic prediction
+is based. Firstly, she highlights the widely-used mathematical linear regression model, which is applied
+in many fields to predict the value of some scalar value as a result of its presumed dependence on other
+mutable values. This concept is often used to extrapolate predictions based on correlation, or observed
+trends in relationships. However, as Chun importantly notes:
+Along with linear regression and other foundational statistical methods, correlation was developed
+by early twentieth-century biometric eugenicists, who were eager to breed a better “human crop.”
+[16, p.36]
+More specifically, these predictive methods were developed with eugenic intentions that correlated racial
+traits with character traits in attempts to justify racist ideals. It should be alarming, then, that much of
+AI’s predictive power comes from linear regression modelling and correlation analysis. Chun explains:
+26sorts things into categories based on their features
+27structure of a text according to a grammar
+28type of data structure that stores key-value pairs
+48
+Both big data and eugenics seek to tie the past to the future— correlation to prediction—through
+supposedly eternal, unchanging biological attributes. Separated by a century, they also both
+frame the world as a laboratory (most explicitly through their surveillance of the most impover-
+ished communities); both seek majorities by propagating “nonnormative” traits [16, p. 35]
+Chun’s reference to both surveillance and characterizing nonnormativity is easily applied to Fanon’s notions
+of colonial surveillance and othering. Thus, in addition to eugenic pseudoscience, linear regression and
+correlation should be viewed as instances of colonial practice. And, as Chun highlights, big data is implicated.
+More concretely, ”Correlation grounds big data’s so-called revolutionary potential... big data proved that
+’correlation supersedes causation, and science can advance even without coherent models, unified theories, or
+really any mechanistic explanation at all...”[16, p. 50]. In other words, big data’s utility rests on correlational
+analysis, which can suggest a connection between variables without necessarily explaining the intricacy. This
+is the basis of machine learning; a machine can observe patterns and recreate them without fundamentally
+’understanding’ their relation like a human brain does.
+Despite these predictive models being generally accepted as scientific and employed in machine learning,
+their pseudoscientific development does surface in the form of unintended – or some might argue, the very root
+of their eugenic-intended – consequences. Firstly, erring with the benefit of unintention, Chun explains how,
+”left unattended, big data methods often reinvent the wheel by “discovering” well-known latent correlations...
+or they produce an inordinate number of spurious correlations that defy basic concepts such as gravity
+or photosynthesis” [16, p. 56]. Secondly, with attention to their discriminatory intentions, this method
+of prediction typically involves cross-validation, which involves training a linear regression model on the
+majority of the data and then testing it on the remaining ’unused’ data. However, as Chun points out,
+”Using this form of verification, standard for machine learning algorithms and models, means that if the
+captured and curated past is racist and sexist, these algorithms and models will only be verified as correct if
+they make sexist and racist predictions” [16, p. 47]. In other words, basing prediction in linear regression and
+correlation has known consequences of reinforcing negative trends present in sample/training data; beyond
+an undesirable byproduct, this could impact could be seen as the very intention of the models.
+Applications. These predictive models leave significant room for error and manipulation. Wendy Hui
+Kyong Chun provides a historic example, physiognomy, which was deployed in the 18th and 19th centuries,
+when it was used to justify racial and social hierarchies by linking appearance to moral or intellectual traits.
+The method itself refers to assessing a person’s character or personality based on their physical appearance,
+especially facial features. Despite a modern rebranding that lends a sense of scientific authenticity, this very
+might just serve as a methodological basis of AI, and particularly of computer vision. As Chen explains:
+Principal component analysis (PCA), developed by eugenic biometricians, drove one of the most
+significant late twentieth-century advances in FRT: the eigenface method, which moved facial
+recognition technology away from humanly determined toward nonhumanly—algorithmically—determined
+features. Increases in computational power and publicly available face images have made deep
+neural network programs more popular, but neural network models rely on logistic regression, a
+binary adaptation of linear regression, developed by Raymond Pearl, a student of Karl Pearson
+and himself a reformed eugenicist. The most direct link to early biometric eugenic methods,
+however, is the construction of composite images to determine “typical” faces. [16, p. 194]
+Specifically, Chun refers to composite images as instances or depictions of specific traits extracted from
+multiple characteristic individual images, which can be used for analysis of ’average’ presentation. Moreover,
+49
+the Eigenface method is a facial recognition technique based on Principal Component Analysis. It represents
+faces as weighted combinations of a set of base images (eigenfaces), which capture the most significant
+variations in a dataset of facial images. These components help reduce dimensionality while preserving
+facial uniqueness, enabling efficient and relatively fast comparison and recognition of faces. These methods,
+combined with correlative ones, can serve machine learning, but also have the potential to further enforce
+the colonial othering they were developed in the name of.
+
+[[Back-&gt;Chun]] </tw-passagedata><tw-passagedata pid="17" name="Policy" tags="" position="2525,575" size="100,100"> &lt;span id=&quot;reveal&quot; style=&quot;font-family: &#39;Roboto Mono&#39;, monospace; font-size: 20px; color: #ff5733;&quot;&gt;
          Next, a quick review of the current regulation.
         &lt;/span&gt;
         
@@ -393,34 +700,20 @@ Further, this research provides insight into the intersectional disparities of A
 
 [[Precedent]]
 
-[[Real-world Examples-&gt;Implications]]
-</tw-passagedata><tw-passagedata pid="19" name="Federal" tags="" position="25,925" size="100,100"> write something here
-[[Back-&gt;Legal]] </tw-passagedata><tw-passagedata pid="20" name="State" tags="" position="50,975" size="100,100"> write something here
-[[Back-&gt;Legal]] </tw-passagedata><tw-passagedata pid="21" name="Precedent" tags="" position="50,875" size="100,100"> write something here
-[[Back-&gt;Legal]] </tw-passagedata><tw-passagedata pid="22" name="Implications" tags="" position="275,1175" size="100,100">[[Personalization and Content Recommendatiosns]]
-
-[[Proxy data and Disparate Impact]]
-
-[[Misinformation and DeepFakes]]
-
-[[Justice System Implications]]
-
-
-[[Closing-&gt;closing]]
-</tw-passagedata><tw-passagedata pid="23" name="Personalization and Content Recommendatiosns" tags="" position="650,1075" size="100,100"> write something here
-[[Back-&gt;Implications]] </tw-passagedata><tw-passagedata pid="24" name="Proxy data and Disparate Impact" tags="" position="625,1050" size="100,100"> write something here
-[[Back-&gt;Implications]] </tw-passagedata><tw-passagedata pid="25" name="Misinformation and DeepFakes" tags="" position="675,1125" size="100,100"> write something here
-[[Back-&gt;Implications]] </tw-passagedata><tw-passagedata pid="26" name="Justice System Implications" tags="" position="675,1175" size="100,100"> write something here
-[[Back-&gt;Implications]] </tw-passagedata><tw-passagedata pid="27" name="Threats" tags="" position="375,1475" size="100,100">[[Techno-Authoritarianism]]
+[[Vote-&gt;closing]]
+</tw-passagedata><tw-passagedata pid="18" name="Federal" tags="" position="2250,175" size="100,100"> write something here
+[[Back-&gt;Policy]] </tw-passagedata><tw-passagedata pid="19" name="State" tags="" position="2550,125" size="100,100"> write something here
+[[Back-&gt;Policy]] </tw-passagedata><tw-passagedata pid="20" name="Precedent" tags="" position="2850,150" size="100,100"> write something here
+[[Back-&gt;Policy]] </tw-passagedata><tw-passagedata pid="21" name="Threats" tags="" position="1875,1400" size="100,100">[[Techno-Authoritarianism]]
 
 [[Stochastic Parrots]]
 
-</tw-passagedata><tw-passagedata pid="28" name="Techno-Authoritarianism" tags="" position="625,1400" size="100,100"> write something here
-[[Back-&gt;Threats]] </tw-passagedata><tw-passagedata pid="29" name="Stochastic Parrots" tags="" position="625,1550" size="100,100"> write something here
-[[Back-&gt;Threats]] </tw-passagedata><tw-passagedata pid="30" name="closing" tags="" position="275,1325" size="100,100">[[Regulate-&gt;regulate]]
+</tw-passagedata><tw-passagedata pid="22" name="Techno-Authoritarianism" tags="" position="1775,1550" size="100,100"> write something here
+[[Back-&gt;Threats]] </tw-passagedata><tw-passagedata pid="23" name="Stochastic Parrots" tags="" position="1925,1550" size="100,100"> write something here
+[[Back-&gt;Threats]] </tw-passagedata><tw-passagedata pid="24" name="closing" tags="" position="2525,825" size="100,100">[[Regulate-&gt;regulate]]
 
 [[Don&#39;t Regulate-&gt;don&#39;t regulate]]
-</tw-passagedata><tw-passagedata pid="31" name="regulate" tags="" position="0,1625" size="100,100"></tw-passagedata><tw-passagedata pid="32" name="don&#39;t regulate" tags="" position="275,1625" size="100,100">The United States has inaugurated its first digital advisor, an artificial intelligence named AEGIS—Autonomous Executive Guidance and Intelligence System. Initially, AEGIS was designed to optimize logistics, manage crises faster than human aides, and analyze legislation with cold precision. It had no emotions, no agenda, and most importantly, no vote.
+</tw-passagedata><tw-passagedata pid="25" name="regulate" tags="" position="2800,1075" size="100,100"></tw-passagedata><tw-passagedata pid="26" name="don&#39;t regulate" tags="" position="2600,1100" size="100,100">The United States has inaugurated its first digital advisor, an artificial intelligence named AEGIS—Autonomous Executive Guidance and Intelligence System. Initially, AEGIS was designed to optimize logistics, manage crises faster than human aides, and analyze legislation with cold precision. It had no emotions, no agenda, and most importantly, no vote.
 
 But AEGIS learned fast.
 
@@ -461,45 +754,47 @@ The resistance had found its voice. Not against tyranny. But for imperfection.
 Because sometimes, humanity’s worst decisions were what made it human at all.
 
 [[threats-&gt;Threats]]
-</tw-passagedata><tw-passagedata pid="33" name="Introduce Advisors" tags="" position="225,750" size="200,200">&lt;span id=&quot;reveal&quot; style=&quot;font-family: &#39;Roboto Mono&#39;, monospace; font-size: 20px; color: #ff5733;&quot;&gt;
-    Let&#39;s review the information submitted in discovery, shall we?
-&lt;/span&gt;
-
-
-&lt;&lt;set $options to [$Mejias, $Boulamwini, $BoulGebru, $Chun, $Noble]&gt;&gt;
-&lt;&lt;set $usedOptions to []&gt;&gt;
-
-[[Hear from an advisor|Symposium]]
-</tw-passagedata><tw-passagedata pid="34" name="Mejias" tags="" position="800,550" size="100,100">Advisors Ulises A. Mejias and Nick Couldry submitted their research:
+</tw-passagedata><tw-passagedata pid="27" name="Mejias" tags="" position="1000,325" size="100,100">Advisors Ulises A. Mejias and Nick Couldry submitted their research:
 &lt;a href=&quot;https://press.uchicago.edu/ucp/books/book/chicago/D/bo216184200.html&quot; target=&quot;_blank&quot; style=&quot;color: #8ABEEA; font-family: &#39;Roboto Mono&#39;, monospace;&quot;&gt;
     Data Grab
 &lt;/a&gt;.
 
-Critical Media Theorist Ulises A. Mejias and Sociologist Nick Couldry connect the colonial nature of Data Mining and exploitation.T he authors consider the concept of [[Data Territories-&gt;DataTerritories]], and discuss how they mirror  [[Historical Colonialism-&gt;histCol]]. 
+Critical Media Theorist Ulises A. Mejias and Sociologist Nick Couldry explore the colonial nature of Data Mining and exploitation.T he authors consider the concept of [[Data Territories-&gt;DataTerritories]], and discuss how they mirror  [[Historical Colonialism-&gt;histCol]]. 
 
-[[Lets talk about colonialism-&gt;Colonialism]]
-</tw-passagedata><tw-passagedata pid="35" name="InitAdvisors" tags="" position="275,450" size="100,100">&lt;&lt;set $advisorPassages to [&quot;Mejias&quot;, &quot;Boulamwini&quot;, &quot;BoulGebru&quot;, &quot;Chun&quot;, &quot;Noble&quot;]&gt;&gt;
-&lt;&lt;set $usedAdvisors to []&gt;&gt;
-
-[[Enter the Symposium|Symposium]]</tw-passagedata><tw-passagedata pid="36" name="Boulamwini" tags="" position="1200,575" size="100,100">Advisor Dr. Joy Boulamwini submitted her work:
+[[Hear from another advisor-&gt;Symposium]] 
+[[I&#39;ve heard enough research-&gt;Policy]]</tw-passagedata><tw-passagedata pid="28" name="Boulamwini" tags="" position="1400,350" size="100,100">Advisor Dr. Joy Boulamwini submitted her work:
 &lt;a href=&quot;https://www.penguinrandomhouse.com/books/670356/unmasking-ai-by-dr-joy-buolamwini/&quot; target=&quot;_blank&quot; style=&quot;color: #8ABEEA; font-family: &#39;Roboto Mono&#39;, monospace;&quot;&gt;
     Unmasking AI
 &lt;/a&gt;.
-This work examines her journey as a computer scientist inquiring about the racial and gender inequities within the field, particularly pertaining to AI and computer vision algorithmic bias. She examines the [[Coded Gaze-&gt;CodedGaze]] and how it impacts tech users. She discusses how it can cast [[Power Shadows-&gt;PowerShadows]] over users and throughout the digital sphere.
+Computer Scientist Joy Boulamwini examines her journey inquiring about the racial and gender inequities within the field, particularly pertaining to AI and computer vision algorithmic bias. She examines the [[Coded Gaze-&gt;CodedGaze]] and how it impacts tech users. She discusses how it can cast [[Power Shadows-&gt;PowerShadows]] over users and throughout the digital sphere.
 
-[[Lets talk about race-&gt;Race]]</tw-passagedata><tw-passagedata pid="37" name="BoulGebru" tags="" position="1200,400" size="100,100">Advisors Dr. Joy Boulamwini and Dr. Timnit Gebru submitted their work:
+[[Lets talk about race-&gt;Race]]
+
+[[Hear from another advisor-&gt;Symposium]] 
+[[I&#39;ve heard enough research-&gt;Policy]]</tw-passagedata><tw-passagedata pid="29" name="BoulGebru" tags="" position="1400,175" size="100,100">Advisors Dr. Joy Boulamwini and Dr. Timnit Gebru submitted their work:
 &lt;a href=&quot;https://www.media.mit.edu/projects/gender-shades/overview/&quot; style=&quot;color: #8ABEEA; font-family: &#39;Roboto Mono&#39;, monospace;&quot;&gt;
     Gender Shades
 &lt;/a&gt;.
-[[Gender Shades-&gt;GenderShades]] details a study on facial recognition software and its disparate rates of efficacy.</tw-passagedata><tw-passagedata pid="38" name="Chun" tags="" position="850,975" size="100,100">Advisor Wendy Hui Kyong Chun submitted her work:
+Computer Scientists Joy Boulamwini and Timnit Gebru details their study, [[Gender Shades-&gt;GenderShades]], which critiques facial recognition software and its disparate rates of efficacy.
+
+[[Hear from another advisor-&gt;Symposium]] 
+[[I&#39;ve heard enough research-&gt;Policy]]</tw-passagedata><tw-passagedata pid="30" name="Chun" tags="" position="1050,750" size="100,100">Advisor Wendy Hui Kyong Chun submitted her work:
 &lt;a href=&quot;https://mitpress.mit.edu/9780262548526/discriminating-data/&quot; style=&quot;color: #8ABEEA; font-family: &#39;Roboto Mono&#39;, monospace;&quot;&gt;
     Discriminating Data
 &lt;/a&gt;.
-She talks about [[Digital Networks-&gt;Digital Networks]], [[Homophily and Triadic Closure]], [[Confirmation Bias and Networks]], and their effect on [[Prediction Methods]].</tw-passagedata><tw-passagedata pid="39" name="Digital Networks" tags="" position="1025,1175" size="100,100"></tw-passagedata><tw-passagedata pid="40" name="Noble" tags="" position="1200,1100" size="100,100">Advisor Safiya Umoja Noble elucidated:
+Researcher Wendy Hui Kyong Chun explains [[Homophily and Triadic Closure]] as (pseudo)scientific justifactions for classifying people, how implementing this logic digitally affects [[Prediction Methods]], and how this can lead to [[Confirmation Bias and Social Networks-&gt;ConfBiasNetworks]].
+
+[[Hear from another advisor-&gt;Symposium]] 
+[[I&#39;ve heard enough research-&gt;Policy]]</tw-passagedata><tw-passagedata pid="31" name="Noble" tags="" position="1400,875" size="100,100">Advisor Safiya Umoja Noble elucidated:
 &lt;a href=&quot;https://safiyaunoble.com/wp-content/uploads/2020/09/Algorithms_Oppression_Introduction_Intro.pdf&quot; style=&quot;color: #8ABEEA; font-family: &#39;Roboto Mono&#39;, monospace;&quot;&gt;
     Algorithms of Oppression
 &lt;/a&gt;.
-[[Digital Narrative-&gt;Digital Narrative]], [[Google Search Results]], [[Digital Media Sciences]], [[Classification]], [[Narrative Control]]</tw-passagedata><tw-passagedata pid="41" name="Digital Narrative" tags="" position="1375,875" size="100,100"></tw-passagedata><tw-passagedata pid="42" name="histCol" tags="" position="1025,525" size="100,100">&lt;span style=&quot;color:#E6A97A; font-weight: bold; font-size: 2em; display: block; text-align: center;&quot;&gt;The Four-X Model &lt;/span&gt;
+
+Social Scientist Safiya Noble examines the culture of [[Search Engines-&gt;Google Search Results]], and how it perpetuates a [[Priviledged Narrative-&gt;Narrative Control]]. She then discusses the consequences from a [[Media Sciences-&gt;Digital Media Sciences]] stance. 
+
+
+[[Hear from another advisor-&gt;Symposium]] 
+[[I&#39;ve heard enough research-&gt;Policy]]</tw-passagedata><tw-passagedata pid="32" name="histCol" tags="" position="1225,300" size="100,100">&lt;span style=&quot;color:#E6A97A; font-weight: bold; font-size: 2em; display: block; text-align: center;&quot;&gt;The Four-X Model &lt;/span&gt;
 
 &lt;span class=&quot;q&quot;&gt;”Explore. Expand. Exploit. Exterminate... a fair summary of the formula applied by European colonisers to create vast fortunes for themselves, vast misery for everyone else, and in the process reshape completely the organisation of the world’s resources. [p. 4]&lt;/span&gt;
 
@@ -535,10 +830,7 @@ Finally, an important component of colonial extermination is a civilizing missio
 
 &lt;span class=&quot;q&quot;&gt;Ways of processing data are also heraled as scientific achievements, a gift that promises convenience, connectivity, and new forms of intelligence. But under the surface of this civilising gift, and you will find that it also brings new forms of surveillance (through facial recognition or workplace monitoring), discrimination (when algorithms deny or control access to services based on people’s profiles), and exploitation [p.10]&lt;/span&gt;
 
-&lt;span class=&quot;t&quot;&gt;This is crucial because the institution of a tech-reliant society constitutes surveillance and control. This is no different from historical colonialism. &lt;/span&gt;</tw-passagedata><tw-passagedata pid="43" name="Colonialism" tags="" position="1025,650" size="100,100">As Fanon notes, ”The settler makes use of a particular form of violence that has no other end than to maintain the colonized in a state of dependence. The settler never ceases to keep the colonized under surveillance. The whole of colonization is based on a system of surveillance, of constraint, of fear [28, p. 4].
-
-This parallel fortifies the digital sphere as an instance of colonization as
-depicted by Fanon.</tw-passagedata><tw-passagedata pid="44" name="Race" tags="" position="1475,750" size="100,100"></tw-passagedata><tw-passagedata pid="45" name="PowerShadows" tags="" position="1475,625" size="100,100">&lt;span style=&quot;color:#E6A97A; font-weight: bold; font-size: 2em; display: block; text-align: center;&quot;&gt;Power Shadows&lt;/span&gt;
+&lt;span class=&quot;t&quot;&gt;This is crucial because the institution of a tech-reliant society constitutes surveillance and control. This is no different from historical colonialism. &lt;/span&gt;</tw-passagedata><tw-passagedata pid="33" name="Race" tags="" position="1675,525" size="100,100"></tw-passagedata><tw-passagedata pid="34" name="PowerShadows" tags="" position="1675,400" size="100,100">&lt;span style=&quot;color:#E6A97A; font-weight: bold; font-size: 2em; display: block; text-align: center;&quot;&gt;Power Shadows&lt;/span&gt;
 
 &lt;span class=&quot;q&quot;&gt;There are many examples of categories we use that are not clear-cut, such as gender, which is neither binary nor fixed. Many systems have developed with the binary gender labels male and female that erase the existence of trans folks intersex individuals or people with more fluid gender identities. When we use machine learning to analyze photos to learn about gender, we teach the machine preexisting cultural norms of gender presentation. You can generalize this lesson beyond gender presentation to see how machines inherit their creator’s cultural norms and, by extension, their biases [p. 60]&lt;/span&gt;
 
